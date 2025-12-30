@@ -1,14 +1,8 @@
-import os
+from fastapi import FastAPI
 
-from flask import Flask
+app = FastAPI()
+# INICIAR APP: uvicorn main:app --reload
 
-app = Flask(__name__)
+from auth_routes import auth_router
 
-@app.route("/")
-def hello_world():
-  """Example Hello World route."""
-  name = os.environ.get("NAME", "World")
-  return f"Hello {name}!"
-
-if __name__ == "__main__":
-  app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 3000)))
+app.include_router(auth_router)
