@@ -1,9 +1,10 @@
 from fastapi import APIRouter, Request
 from fastapi.templating import Jinja2Templates
-from fastapi.staticfiles import StaticFiles
+
 
 
 templates = Jinja2Templates(directory="templates")
+
 
 general_router = APIRouter(prefix="/app", tags=["/app"])
 

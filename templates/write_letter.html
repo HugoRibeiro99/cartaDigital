@@ -1,9 +1,18 @@
 {% extends "base.html" %}
 
 {% block conteudo %}
+<div class="mesa-fundo"> <div class="papel-carta"> <h1 class="titulo-carta">Escreva sua mensagem...</h1>
+        
+        <form method="POST" action="/app/send"> <textarea 
+                name="mensagem" 
+                class="area-escrita" 
+                placeholder="Querido amigo..."></textarea>
+            
+            <div class="rodape">
+                <button type="submit" class="botao-selo">Selar Carta</button>
+            </div>
+        </form>
 
-<div class="papel">
-    <h1>Escrever Carta</h1>
-    ...
+    </div>
 </div>
 {% endblock %}
