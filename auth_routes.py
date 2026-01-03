@@ -3,6 +3,7 @@ from models import User
 from dependencies import get_session
 from fastapi.templating import Jinja2Templates
 from main import bcrypt_context
+from schemas import UserSchema
 
 templates = Jinja2Templates(directory="templates")
 
@@ -18,15 +19,15 @@ async def authenticate(request: Request):
 
 
 @auth_router.post("/create_account")
-async def create_account(email: str, password: str, name: str, user_id: str,session = Depends(get_session)):
+async def create_account(user_schema : UserSchema, session = Depends(get_session)):
 
-    user = session.query(User).filter(User.email==email).first()
+    user = session.query(User).filter(User.email==user_schema.email).first()
     
     if user:
         raise HTTPException(status_code=400, detail="Email já cadastrado")
     else:
-        c_pass = bcrypt_context.hash(password)
-        new_user = User(name, email, c_pass, user_id )
+        c_pass = bcrypt_context.hash(user_schema.password)
+        new_user = User(user_schema.name, user_schema.email, c_pass, user_schema.user_id )
         session.add(new_user)
         session.commit()
         raise HTTPException(status_code=201, detail="Usuário criado com sucesso")
