@@ -12,12 +12,13 @@ class User(base):
     name = Column("name", String)
     email = Column("email", String, nullable=False)
     password = Column("password", String, nullable=False)
-    user_id = Column("user_id", Boolean, default=False)
+    user_id = Column("user_id", String, nullable=False)
     
-    def __init__(self, name, email, password):
+    def __init__(self, name, email, password, user_id):
         self.name = name
         self.email= email
         self.password = password
+        self.user_id = user_id
         
 
 

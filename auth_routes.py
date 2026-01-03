@@ -1,8 +1,8 @@
-from fastapi import APIRouter, Depends, Request
+from fastapi import APIRouter, Depends, Request, HTTPException
 from models import User
 from dependencies import get_session
 from fastapi.templating import Jinja2Templates
-
+from main import bcrypt_context
 
 templates = Jinja2Templates(directory="templates")
 
@@ -18,19 +18,19 @@ async def authenticate(request: Request):
 
 
 @auth_router.post("/create_account")
-async def create_account(email: str, password: str, name: str, session = Depends(get_session)):
+async def create_account(email: str, password: str, name: str, user_id: str,session = Depends(get_session)):
 
     user = session.query(User).filter(User.email==email).first()
     
     if user:
-        return {"mensagem": "Email ja cadastrado"}
+        raise HTTPException(status_code=400, detail="Email já cadastrado")
     else:
-        new_user = User(name, email, password)
+        c_pass = bcrypt_context.hash(password)
+        new_user = User(name, email, c_pass, user_id )
         session.add(new_user)
         session.commit()
-        return {"mensagem": "Conta criada com sucesso"}
+        raise HTTPException(status_code=201, detail="Usuário criado com sucesso")
 
-    session.close()
 
 @auth_router.get("/login")
 async def login(request: Request):
@@ -39,3 +39,7 @@ async def login(request: Request):
         name="auth/signIn.html",
         context={"request": request}
     )
+
+@auth_router.post("/login")
+async def login(request: Request):
+    return{"message": "Login realizado com sucesso"}
