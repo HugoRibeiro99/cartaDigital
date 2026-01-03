@@ -1,18 +1,24 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% block conteudo %} {% include "menu.html" %}
 
-{% block conteudo %}
-<div class="mesa-fundo"> <div class="papel-carta"> <h1 class="titulo-carta">Escreva sua mensagem...</h1>
-        
-        <form method="POST" action="/app/send"> <textarea 
-                name="mensagem" 
-                class="area-escrita" 
-                placeholder="Querido amigo..."></textarea>
-            
-            <div class="rodape">
-                <button type="submit" class="botao-selo">Selar Carta</button>
-            </div>
-        </form>
+<div class="table-bg">
+  <div class="paper">
+    <h1 class="letter-title">Escreva sua mensagem...</h1>
 
-    </div>
+    <form method="POST" action="/app/send">
+      <textarea
+        name="mensagem"
+        class="letter-textarea"
+        placeholder="Querido amigo..."
+      ></textarea>
+
+      <div class="rodape">
+        <button type="submit" class="btn-stamp">Selar Carta</button>
+      </div>
+    </form>
+  </div>
 </div>
+
+
+<script src="{{ url_for('static', path='/js/write.js') }}"></script>
+
 {% endblock %}

@@ -1,0 +1,22 @@
+
+{% block nav %}
+
+<header>
+
+    <nav>
+        <ul class="menu">
+            <li class="closed" data-tooltip="Escrever Carta"><a href="/app/write"><i class="ph ph-pen-nib"></i></a></li>
+            <li class="closed" data-tooltip="Cartas recebidas"><a href="/app/inbox"><i class="ph ph-envelope-simple-open"></i></a></li>
+            <li class="closed" data-tooltip="Cartas enviadas"><a href="/app/sent"><i class="ph ph-paper-plane-right"></i></a></li>
+            <li class="closed" data-tooltip="Perfil"><a href="/app/profile"><i class="ph ph-user-circle"></i></a></li>
+            <li id="menu-btn" data-tooltip="Abrir menu" onclick="toggleMenu()"><a><i class="ph ph-dots-three-outline-vertical"></i></a></li>
+        </ul>
+
+    </nav>
+
+    <script src="{{ url_for('static', path='/js/menu.js') }}"></script>
+
+</header>
+
+
+{% endblock %}

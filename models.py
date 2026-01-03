@@ -12,7 +12,7 @@ class User(base):
     name = Column("name", String)
     email = Column("email", String, nullable=False)
     password = Column("password", String, nullable=False)
-    # user_id = Column("user_id", Boolean, default=False)
+    user_id = Column("user_id", Boolean, default=False)
     
     def __init__(self, name, email, password):
         self.name = name

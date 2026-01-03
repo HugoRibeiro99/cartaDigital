@@ -1,0 +1,90 @@
+nav{
+    position: fixed;
+    bottom: 0;
+    margin: 1rem;
+}
+
+.menu {
+    list-style: none;
+    position: relative;
+    
+}
+
+.menu li{
+    padding: 1rem;
+    background-color: #f4eace;
+    border-radius: 50%;
+    width: 4rem;
+    height: 4rem;
+    margin: 1rem 0rem;
+    z-index: 1000;
+    border: 1px solid darkred;
+    cursor: pointer;
+}
+
+.closed{
+    opacity: 0;
+    transform: translateY(20px);
+    visibility: hidden;
+}
+
+#menu-btn{
+    opacity: 1;
+    visibility: visible;
+}
+
+.opened {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    transition: all 1s ease-out;
+    position: relative; 
+}
+
+
+/* 2. O Tooltip (o elemento fantasma) */
+.opened::after {
+    /* MÁGICA: Pega o texto do HTML automaticamente */
+    content: attr(data-tooltip); 
+    
+    /* Posicionamento: Flutuando ao lado do botão */
+    position: absolute;
+    left: 120%; /* Empurra para a esquerda do botão (ajuste conforme necessário) */
+    top: 50%;
+    transform: translateY(-50%) scale(0.8); /* Centraliza verticalmente e começa pequeno */
+    
+    /* Estilo "Papelzinho" */
+    background-color: #f4eace; /* Cor de papel */
+    color: #3e2723; /* Cor de tinta */
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 1.2rem;
+    white-space: nowrap; /* Não deixa o texto quebrar linha */
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+    font-family: 'Dancing Script', cursive; /* Sua fonte de mão */
+    
+    /* Começa invisível */
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease;
+    
+    /* Importante: O mouse não "tropeça" no tooltip */
+    pointer-events: none; 
+}
+
+.opened:hover::after {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(-50%) scale(1); /* Efeito de "pop" crescendo */
+}
+
+.menu li a {
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.menu li a i {
+    font-size: 2rem;
+    color: darkred;
+}

@@ -1,0 +1,125 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+.table-bg{
+
+    background-image: url("../images/bg.png");
+    background-size: cover;
+    width: 100%;
+    height: 100vh;
+    min-height: 100vh; 
+    display: flex;     
+    justify-content: center;
+    align-items: center;
+}
+
+.paper{
+    background-color: #f4eace;
+    background-image: linear-gradient(to bottom right, rgba(0,0,0,0.05), transparent 80%);
+    width: 700px;
+    max-width: 90%;
+    min-height: 70vh;
+    position: relative;
+    padding: 4rem 3rem;
+    border-radius: 2px 5px 2px 3px / 200px 5px 10px 200px;
+    box-shadow: 
+        /* Sombra de contato (bem perto) */
+        0 1px 4px rgba(0,0,0,0.4),
+        /* Sombra difusa (profundidade) */
+        0 15px 40px rgba(0,0,0,0.5),
+        /* Brilho interno (para dar textura) */
+        inset 0 0 40px rgba(161, 136, 127, 0.2);
+    
+    /* Rotação sutil para parecer que foi jogado na mesa */
+    transform: rotate(-1deg);
+}
+
+/* Efeito de "Folha Dupla" (Pilha de papel) */
+.paper::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: #eee3c5;
+    z-index: -1;
+    transform: rotate(2deg);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    border-radius: 4px;
+}
+
+.letter-title {
+    font-family: 'Dancing Script', cursive;
+    color: #2c1a16; /* Cor Sépia Escuro (Tinta Seca) */
+    text-align: center;
+    font-size: 3rem;
+    margin-bottom: 2rem;
+    /* Leve sombra no texto para parecer tinta molhada/relevo */
+    text-shadow: 1px 1px 0px rgba(0,0,0,0.1); 
+}
+
+.letter-textarea {
+    width: 100%;
+    height: 500px;
+    background: transparent;
+    border: none;
+    outline: none;
+    resize: none;
+    
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.8rem;
+    color: #3e2723; /* Tinta Castanha */
+    line-height: 2.2rem;
+    
+    /* LINHAS DE CADERNO (Pauta) */
+    /* Cria linhas azuis bem fraquinhas para guiar a escrita */
+    background-image: linear-gradient(transparent 2.1rem, rgba(0,0,0,0.05) 2.1rem);
+    background-size: 100% 2.2rem;
+    background-attachment: local; /* As linhas rolam junto com o texto */
+}
+
+/* Placeholder (texto de ajuda) mais claro */
+.letter-textarea::placeholder {
+    color: rgba(62, 39, 35, 0.3);
+}
+
+/* =========================================
+   O SELO DE CERA (BOTÃO)
+   ========================================= */
+.rodape {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.btn-stamp {
+    display: inline-block;
+    background: radial-gradient(circle at 30% 30%, #d32f2f, #8e0000); /* Efeito 3D Esférico */
+    color: rgba(255,255,255,0.9);
+    border: 4px solid #b71c1c; /* Borda de cera grossa */
+    padding: 15px 25px;
+    border-radius: 50% 45% 55% 50% / 50% 55% 45% 50%; /* Formato imperfeito */
+    
+    font-family: 'Times New Roman', serif;
+    font-weight: bold;
+    font-style: italic;
+    font-size: 1.1rem;
+    cursor: pointer;
+    
+    box-shadow: 
+        0 5px 10px rgba(0,0,0,0.4), /* Sombra projetada */
+        inset 2px 2px 5px rgba(255,255,255,0.3); /* Brilho do reflexo */
+    
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-stamp:hover {
+    transform: scale(1.05) rotate(2deg);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.5);
+}
+
+.btn-stamp:active {
+    transform: scale(0.95);
+}
+

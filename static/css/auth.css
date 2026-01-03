@@ -1,0 +1,84 @@
+*{
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+.authContainer{
+
+    background: linear-gradient(rgba(235, 206, 190, 0.5), rgba(17, 0, 0, 0.719)), url("../images/bg.png");
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    gap: 1.8rem;
+}
+
+.authTitle{
+
+    font-family: 'Dancing Script', cursive;
+    font-size: 2.5rem;
+    color: #3e2723;
+    margin-bottom: 5px;
+    border-bottom: 2px solid #8d6e63; /* Linha decorativa embaixo do título */
+    display: inline-block;
+    text-align: center;
+    padding-bottom: 10px;
+    background-color: rgba(255, 255, 255, 0.671);
+    border-radius: 1rem;
+    padding: 1rem;
+    
+}
+
+form{
+    background-color: #F4EACE;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 30rem;
+    height: 20rem;
+    border-radius: .5rem;
+    padding: 12rem 1rem;
+    border: 1px solid darkred;
+}
+
+form label{
+    width: 100%;
+    font-size: .8rem;
+    color: #3E2723;
+}
+
+form input{
+   width: 100%;
+    /* A MÁGICA AQUI: */
+    background: transparent; /* Tira o fundo branco */
+    border: none;
+    border-bottom: 2px solid #a1887f; /* Deixa só a linha de baixo */
+    margin: 1rem;
+    font-family: 'Dancing Script', cursive; /* O que digita vira letra de mão */
+    font-size: 1.5rem;
+    color: darkred;
+    padding: 5px 0;
+    outline: none;
+}
+
+form input:focus{
+    border-bottom-color: #bf360c;   
+}
+
+form button[type="submit"]{
+    background-color: darkred;
+    color: #F4EACE;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    padding: .5rem 2rem;
+    border-radius: 1rem;
+    margin-top: 1rem;
+    color: white;
+    font-size: 1.2rem;
+    font-family: 'Dancing Script', cursive;
+}

@@ -1,0 +1,34 @@
+{% extends "auth/authBase.html" %} {% block conteudo %}
+
+<div class="authContainer">
+  <div>
+    <h1 class="authTitle">Novo Registro</h1>
+  </div>
+
+  <form action="" method="post">
+    <label for="email">Email :</label>
+    <input id="email" name="email" type="email" placeholder="Email" required />
+
+    <label for="password"> Senha :</label>
+    <input
+      id="password"
+      name="password"
+      type="password"
+      placeholder="Password"
+      required
+    />
+
+    <label for="user_id"> Id :</label>
+    <input
+      id="user_id"
+      name="user_id"
+      type="text"
+      placeholder="User ID"
+      required
+    />
+
+    <button type="submit">Criar</button>
+  </form>
+</div>
+
+{% endblock%}
