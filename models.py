@@ -36,7 +36,7 @@ class Letter(base):
     sender_id = Column("sender_id", ForeignKey("users.id"), nullable=False)
     recipient_id = Column("recipient_id", ForeignKey("users.id"), nullable = False)
     content = Column("content", Text, nullable=False)
-    status = Column("status", String, default=LetterStatus.DRAFT, nullable=False)
+    status = Column("status", String, default=LetterStatus.DRAFT.value, nullable=False)
     created_at = Column("created_at", DateTime,default=datetime.now, nullable=False)
     sent_at = Column("sent_at", DateTime,default=None, nullable=True)
     delivery_at = Column("delivery_at", DateTime ,default=None, nullable=True)
