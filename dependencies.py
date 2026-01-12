@@ -1,4 +1,4 @@
-from fastapi import Depends, HTTPException
+from fastapi import Depends, HTTPException, Request
 from models import User, db
 from sqlalchemy.orm import sessionmaker, Session
 from jose import jwt, JWTError
@@ -21,4 +21,34 @@ def token_verification(token: str = Depends(oauth2_schema), session : Session = 
     user = session.query(User).filter(User.id == user_id).first()
     if not user:
         raise HTTPException(status_code=401, detail="Acesso inválido")
+    return user
+
+
+
+def get_current_user(request: Request, session: Session = Depends(get_session)):
+   
+    token = request.cookies.get("access_token")
+    if not token:
+        auth_header = request.headers.get("Authorization")
+        if auth_header:
+            token = auth_header
+    
+    if not token:
+        raise HTTPException(status_code=401, detail="Token não encontrado")
+    
+    if token.startswith("Bearer "):
+        token = token.split(" ")[1]
+
+    try:
+        dic_info = jwt.decode(token, SECRET_KEY, ALGORITHM) 
+        user_id : str = dic_info.get("sub")
+        if user_id is None:
+            raise HTTPException(status_code=401, detail="Token inválido")
+    except JWTError:
+        raise HTTPException(status_code=401, detail="Token expirado ou inválido")
+    
+    user = session.query(User).filter(User.id == user_id).first()
+    if user is None:
+        raise HTTPException(status_code=401, detail="Usuário não encontrado")
+
     return user

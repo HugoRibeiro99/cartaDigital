@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, Request, HTTPException
+from fastapi.responses import JSONResponse
 from models import User
 from dependencies import get_session, token_verification
 from fastapi.templating import Jinja2Templates
@@ -70,11 +71,30 @@ async def login(login_schema : LoginSchema, session = Depends(get_session)):
     else:
         access_token = create_token(user.id)
         refresh_token = create_token(user.id, duration_token=timedelta(days=7))
-        return {
-            "access_token": access_token, 
+
+        content = {
+            "access_token": access_token,
             "refresh_token": refresh_token,
-            "token_type": "Bearer"
+            "token_type": "Bearer",
+            "message": "Login realizado",
+            "redirect_url": "/app/write_letter" 
         }
+
+        response = JSONResponse(content= content)
+        
+        response.set_cookie(
+            path="/",
+            key="access_token",
+            value=f"Bearer {access_token}",
+            httponly=True,
+            max_age=1800,
+            samesite="lax",
+            secure=False
+        )
+        
+        return response
+
+    
 
 @auth_router.post("/login-form")
 async def login_form(data_form: OAuth2PasswordRequestForm = Depends(), session = Depends(get_session)):
@@ -98,3 +118,4 @@ async def use_refresh_token(user: User = Depends(token_verification)):
         "access_token": access_token,
         "token_type": "Bearer"
     }
+

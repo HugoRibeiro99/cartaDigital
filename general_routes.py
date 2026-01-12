@@ -1,17 +1,18 @@
 from fastapi import APIRouter, Request, Depends, HTTPException
 from fastapi.templating import Jinja2Templates
 from schemas import LetterCreate
-from dependencies import get_session, token_verification
+from dependencies import get_session, token_verification, get_current_user
 from models import Letter
 
 
 templates = Jinja2Templates(directory="templates")
 
 
-general_router = APIRouter(prefix="/app", tags=["/app"], dependencies=[Depends(token_verification)])
+general_router = APIRouter(prefix="/app", tags=["/app"])
 
 @general_router.get("/write_letter")
-async def write_letter(request: Request):
+async def write_letter(request: Request, user = Depends(get_current_user)):
+
     return templates.TemplateResponse(
         request = request,
         name="write_letter.html",
