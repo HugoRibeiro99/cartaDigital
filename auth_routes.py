@@ -119,3 +119,18 @@ async def use_refresh_token(user: User = Depends(token_verification)):
         "token_type": "Bearer"
     }
 
+
+@auth_router.post("/logout")
+async def logout():
+
+    content = {"message": "Usuario deslogado com sucesso", "redirect_url": "/auth/login"}
+    response = JSONResponse(content=content)
+
+    response.delete_cookie(
+        key="access_token",
+        path="/",
+        httponly=True,
+        samesite="lax"
+    )
+
+    return response

@@ -16,10 +16,39 @@
 </head>
 
 <body>
+
+    {% include "logout.html" %}
     
     {% block conteudo %}
     {% endblock %}
 
+    {% include "menu.html" %}
+
+
+    <script>
+        document.getElementById('btn-logout').addEventListener('click', async () => {
+            try {
+                // 1. Chama a rota de logout no backend
+                const response = await fetch('/auth/logout', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+    
+                // 2. Se o backend confirmou que matou o cookie...
+                if (response.ok) {
+                    const data = await response.json();
+                    // 3. Redireciona o usuário para o login
+                    window.location.href = data.redirect_url || "/auth/login";
+                }
+            } catch (error) {
+                console.error("Erro ao tentar sair:", error);
+                // Fallback: Redireciona mesmo se der erro, por segurança
+                window.location.href = "/auth/login";
+            }
+        });
+    </script>
 </body>
 
 </html>
