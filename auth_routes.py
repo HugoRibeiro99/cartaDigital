@@ -31,6 +31,32 @@ def create_token(user_id, duration_token = timedelta(minutes=ACESS_TOKEN_EXPIRE_
     return encoded_jwt
 
 
+def response_return(access_token, refresh_token, message,redirect_url):
+
+    content = {
+        "access_token": access_token,
+        "refresh_token": refresh_token,
+        "token_type": "Bearer",
+        "message": "Login realizado",
+        "redirect_url": "/app/write_letter" 
+    }
+
+    response = JSONResponse(content = content)
+        
+    response.set_cookie(
+        path="/",
+        key="access_token",
+        value=f"Bearer {access_token}",
+        httponly=True,
+        max_age=1800,
+        samesite="lax",
+        secure=False
+    )
+
+    return response
+
+
+
 @auth_router.get("/create_account")
 async def authenticate(request: Request):
     return templates.TemplateResponse(
@@ -38,6 +64,8 @@ async def authenticate(request: Request):
         name="auth/signUp.html",
         context={"request": request}
     )
+
+
 
 
 @auth_router.post("/create_account")
@@ -52,7 +80,12 @@ async def create_account(user_schema : UserSchema, session = Depends(get_session
         new_user = User(user_schema.name, user_schema.email, c_pass, user_schema.user_id )
         session.add(new_user)
         session.commit()
-        raise HTTPException(status_code=201, detail="Usuário criado com sucesso")
+        access_token = create_token(new_user.id)
+        refresh_token = create_token(new_user.id, duration_token=timedelta(days=7))
+
+        response = response_return(access_token=access_token, refresh_token=refresh_token, message="Conta criada com sucesso", redirect_url="/app/write_letter")
+        return response
+
 
 
 @auth_router.get("/login")
@@ -72,26 +105,7 @@ async def login(login_schema : LoginSchema, session = Depends(get_session)):
         access_token = create_token(user.id)
         refresh_token = create_token(user.id, duration_token=timedelta(days=7))
 
-        content = {
-            "access_token": access_token,
-            "refresh_token": refresh_token,
-            "token_type": "Bearer",
-            "message": "Login realizado",
-            "redirect_url": "/app/write_letter" 
-        }
-
-        response = JSONResponse(content= content)
-        
-        response.set_cookie(
-            path="/",
-            key="access_token",
-            value=f"Bearer {access_token}",
-            httponly=True,
-            max_age=1800,
-            samesite="lax",
-            secure=False
-        )
-        
+        response = response_return(access_token=access_token, refresh_token=refresh_token, message="Login realizado", redirect_url="/app/write_letter")
         return response
 
     
