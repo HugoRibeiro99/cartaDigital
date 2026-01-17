@@ -1,4 +1,4 @@
-from fastapi import Depends, HTTPException, Request
+from fastapi import Depends, HTTPException, Request, status
 from models import User, db
 from sqlalchemy.orm import sessionmaker, Session
 from jose import jwt, JWTError
@@ -32,9 +32,12 @@ def get_current_user(request: Request, session: Session = Depends(get_session)):
         auth_header = request.headers.get("Authorization")
         if auth_header:
             token = auth_header
-    
-    if not token:
-        raise HTTPException(status_code=401, detail="Token não encontrado")
+        else:
+            raise HTTPException(status_code=status.HTTP_303_SEE_OTHER, 
+                detail="Usuário não autenticado, redirecionando para login",
+                headers={"Location": "/auth/login"}
+            )
+
     
     if token.startswith("Bearer "):
         token = token.split(" ")[1]
@@ -43,12 +46,24 @@ def get_current_user(request: Request, session: Session = Depends(get_session)):
         dic_info = jwt.decode(token, SECRET_KEY, ALGORITHM) 
         user_id : str = dic_info.get("sub")
         if user_id is None:
-            raise HTTPException(status_code=401, detail="Token inválido")
+            raise HTTPException(
+                status_code=status.HTTP_303_SEE_OTHER,
+                detail="Token inválido",
+                headers={"Location": "/auth/login"}
+            )
     except JWTError:
-        raise HTTPException(status_code=401, detail="Token expirado ou inválido")
+        raise HTTPException(
+            status_code=status.HTTP_303_SEE_OTHER,
+            detail="Token expirado, redirecionando para login",
+            headers={"Location": "/auth/login"}
+        )
     
     user = session.query(User).filter(User.id == user_id).first()
     if user is None:
-        raise HTTPException(status_code=401, detail="Usuário não encontrado")
+        raise HTTPException(
+            status_code=status.HTTP_303_SEE_OTHER,
+            detail="Usuário não encontrado, redirecionando para login",
+            headers={"Location": "/auth/login"}
+        )
 
     return user
