@@ -19,38 +19,43 @@
     />
 
     <button type="submit">Entrar</button>
+
+    <div class="reponse-redirect">
+      <span id="error-msg"></span>
+
+      <p class="redirect-auth">
+        ainda não tem uma conta ?
+        <a href="/auth/create_account">Criar conta</a>
+      </p>
+    </div>
   </form>
 </div>
 
 <script>
+  document.getElementById("loginForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-document.getElementById('loginForm').addEventListener('submit', async (e) => {
-        e.preventDefault();
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
 
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-
-        const response = await fetch('/auth/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ email: email, password: password })
-        });
-
-        if (response.ok) {
-            const data = await response.json();
-            window.location.href =  data.redirect_url; 
-        } else {
-            const errorData = await response.json();
-            const errorElement = document.getElementById('error-msg');
-            errorElement.innerText = errorData.detail;
-            errorElement.style.display = 'block';
-
-        }
+    const response = await fetch("/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email: email, password: password }),
     });
 
-
+    if (response.ok) {
+      const data = await response.json();
+      window.location.href = data.redirect_url;
+    } else {
+      const errorData = await response.json();
+      const errorElement = document.getElementById("error-msg");
+      errorElement.textContent = errorData.detail;
+      errorElement.classList.add("error-msg");
+    }
+  });
 </script>
 
 {% endblock%}
