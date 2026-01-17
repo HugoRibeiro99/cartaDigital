@@ -21,9 +21,9 @@ async def write_letter(request: Request, user = Depends(get_current_user)):
 
 
 @general_router.post("/write_letter")
-async def write_letter(letter_schema : LetterCreate, session = Depends(get_session)):
-    
-    new_letter = Letter(recipient_id = letter_schema.recipient_id, content = letter_schema.content, sender_id = letter_schema.sender_id)
+async def write_letter(letter_schema : LetterCreate, current_user = Depends(get_current_user), session = Depends(get_session)):
+
+    new_letter = Letter(recipient_id = letter_schema.recipient_id, content = letter_schema.content, sender_id = current_user.id)
     session.add(new_letter)
     session.commit()
     raise  HTTPException(status_code=201, detail="Carta criada com sucesso")

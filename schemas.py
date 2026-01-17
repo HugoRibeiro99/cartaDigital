@@ -20,7 +20,6 @@ class LoginSchema(BaseModel):
         from_attributes = True
 
 class LetterCreate(BaseModel):
-    sender_id: int
     recipient_id: int
     content: str
 
