@@ -3,6 +3,7 @@ from fastapi.templating import Jinja2Templates
 from schemas import LetterCreate
 from dependencies import get_session, token_verification, get_current_user
 from models import Letter
+from models import User
 
 
 templates = Jinja2Templates(directory="templates")
@@ -23,7 +24,12 @@ async def write_letter(request: Request, user = Depends(get_current_user)):
 @general_router.post("/write_letter")
 async def write_letter(letter_schema : LetterCreate, current_user = Depends(get_current_user), session = Depends(get_session)):
     'fazer logica getByID para verificar se o recipient existe'
-    new_letter = Letter(recipient_id = letter_schema.recipient_id, content = letter_schema.content, sender_id = current_user.id)
+    nick_name = session.query(User).filter(User.user_id == letter_schema.recipient_user_id).first()
+
+    if not nick_name:
+        raise HTTPException(status_code=404, detail="Destinatário não encontrado. Verifique o apelido.")
+    
+    new_letter = Letter(recipient_id = nick_name.id, content = letter_schema.content, sender_id = current_user.id)
     session.add(new_letter)
     session.commit()
     raise  HTTPException(status_code=201, detail="Carta criada com sucesso")

@@ -180,7 +180,7 @@
 
 /* Efeito ao clicar para escrever */
 .letter-input:focus {
-    border-bottom: 2px solid rgba(62, 39, 35, 0.6); /* Linha fica sólida e mais escura */
+    border-bottom: 2px solid rgba(62, 39, 35, 0.6); 
 }
 
 /* Ajuste do placeholder para combinar */
@@ -189,3 +189,16 @@
     font-size: 1.5rem;
 }
 
+#error-msg{
+    display: none;
+}
+
+.error-msg{
+    color: darkred;
+    font-size: 0.8rem;
+    text-align: center;
+    width: 100%;
+    display: block;
+    padding: 1rem;
+    
+}
