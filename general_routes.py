@@ -22,7 +22,7 @@ async def write_letter(request: Request, user = Depends(get_current_user)):
 
 @general_router.post("/write_letter")
 async def write_letter(letter_schema : LetterCreate, current_user = Depends(get_current_user), session = Depends(get_session)):
-
+    'fazer logica getByID para verificar se o recipient existe'
     new_letter = Letter(recipient_id = letter_schema.recipient_id, content = letter_schema.content, sender_id = current_user.id)
     session.add(new_letter)
     session.commit()

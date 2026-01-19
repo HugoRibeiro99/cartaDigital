@@ -1,16 +1,22 @@
 {% extends "base.html" %} {% block conteudo %} 
 <div class="table-bg">
   <div class="paper">
-    <h1 class="letter-title">Escreva sua mensagem...</h1>
-
     <form id="paper">
+      <div class="recipient-container">
+        <label class="recipient-label">Caro(a)</label>
+        <input type="text" class="letter-input" placeholder="Nome do destinatário..." autocomplete="off" id="recipient-id">
+    </div>
       <textarea
         name="mensagem"
         id="message"
         class="letter-textarea"
         placeholder="Querido amigo..."
       ></textarea>
+      <div class="LetterOptions">
 
+        <i class="ph ph-floppy-disk-back" title="Salvar rascunho"></i>
+
+      </div>
       <div class="rodape">
         <button type="submit" class="btn-stamp">Selar Carta</button>
       </div>

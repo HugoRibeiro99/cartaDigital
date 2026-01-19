@@ -3,9 +3,8 @@ document.getElementById('paper').addEventListener('submit', async (e) => {
     e.preventDefault();
 
     const message = document.getElementById('message').value;
-    // var recipient_id = document.getElementById('recipient_id').value;
+    var recipient_id = document.getElementById('recipient-id').value;
 
-    var recipient_id = 0
 
     alert(recipient_id);
 

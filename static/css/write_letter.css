@@ -37,7 +37,7 @@
         inset 0 0 40px rgba(161, 136, 127, 0.2);
     
     /* Rotação sutil para parecer que foi jogado na mesa */
-    transform: rotate(-1deg);
+    transform: rotate(-0.25deg);
 }
 
 /* Efeito de "Folha Dupla" (Pilha de papel) */
@@ -56,7 +56,7 @@
     font-family: 'Dancing Script', cursive;
     color: #2c1a16; /* Cor Sépia Escuro (Tinta Seca) */
     text-align: center;
-    font-size: 3rem;
+    font-size: 2.0rem;
     margin-bottom: 2rem;
     /* Leve sombra no texto para parecer tinta molhada/relevo */
     text-shadow: 1px 1px 0px rgba(0,0,0,0.1); 
@@ -125,4 +125,67 @@
     transform: scale(0.95);
 }
 
+
+.LetterOptions{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 2rem;
+    margin-top: 1rem;
+}
+
+.LetterOptions i{
+    cursor: pointer;
+    padding: .5rem;
+    color: darkred;
+    font-size: 1.5rem;
+    background-color: #f4eace;
+    border-radius: .5rem;
+}
+
+/* Container para alinhar o Label e o Input */
+.recipient-container {
+    display: flex;
+    align-items: baseline; /* Alinha a base do texto cursivo */
+    gap: 20px;
+    margin-bottom: 3.5rem;
+    padding-left: 5px;
+}
+
+
+/* Estilo do Label "Caro(a)" */
+.recipient-label {
+    font-family: 'Poppins', sans-serif; /* Mantém legível ou muda para Dancing Script se preferir */
+    font-weight: 600;
+    color: #2c1a16;
+    font-size: 1.1rem;
+}
+
+/* O Estilo do Input em si */
+.letter-input {
+
+    background: transparent; /* Fundo transparente para ver o papel */
+    border: none;
+    border-bottom: 2px dashed rgba(62, 39, 35, 0.3); /* Linha pontilhada suave */
+    outline: none; /* Remove a borda azul de seleção */
+    width: 50%;
+    /* Tipografia igual à do texto da carta */
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.8rem;
+    color: #3e2723;
+    padding: 0 10px;
+
+
+}
+
+/* Efeito ao clicar para escrever */
+.letter-input:focus {
+    border-bottom: 2px solid rgba(62, 39, 35, 0.6); /* Linha fica sólida e mais escura */
+}
+
+/* Ajuste do placeholder para combinar */
+.letter-input::placeholder {
+    color: rgba(62, 39, 35, 0.2);
+    font-size: 1.5rem;
+}
 
