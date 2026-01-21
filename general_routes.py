@@ -4,6 +4,7 @@ from schemas import LetterCreate
 from dependencies import get_session, token_verification, get_current_user
 from models import Letter
 from models import User
+from sqlalchemy import desc
 
 
 templates = Jinja2Templates(directory="templates")
@@ -34,6 +35,30 @@ async def write_letter(letter_schema : LetterCreate, current_user = Depends(get_
     session.commit()
     raise  HTTPException(status_code=201, detail="Carta criada com sucesso")
 
+
+@general_router.get("/get_letters")
+async def getLetters(current_user = Depends(get_current_user), session = Depends(get_session)):
+
+    letters = session.query(Letter, User).join(User, Letter.sender_id == User.id).filter(Letter.recipient_id == current_user.id).filter(Letter.status != "DRAFT")\
+    .order_by(desc(Letter.id)).all()
+
+    print(letters)
+    
+    my_letters = []
+
+    for letter, sender in letters:
+        # Formata a data aqui para facilitar no JS
+        data_fmt = letter.created_at.strftime("%d/%m/%Y") if letter.created_at else "Data desc."
+        
+        my_letters.append({
+            "id": letter.id,
+            "sender_nick": sender.user_id,
+            "created_at": data_fmt,
+            "read": letter.status == "READ",
+            "content": letter.content # Opcional, se quiser mostrar preview
+        })
+
+    return my_letters
 
 @general_router.get("/inbox")
 async def inbox(request: Request):
