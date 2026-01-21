@@ -1,0 +1,172 @@
+
+
+{% extends "base.html" %}
+
+{% block conteudo %}
+<div class="inbox-container">
+    <h2 class="page-title">Minha Caixa de Correspondência</h2>
+
+    {% if letters %}
+        <div class="envelope-grid">
+            {% for letter in letters %}
+            <div class="envelope-card {% if letter.read %}read{% else %}unread{% endif %}" 
+                 onclick="window.location.href='/app/read_letter/{{ letter.id }}'">
+                
+                <div class="envelope-flap"></div>
+                
+                <div class="envelope-info">
+                    <div class="sender-info">
+                        <i class="ph ph-user-circle"></i>
+                        <span>De: {{ letter.sender_nick }}</span> 
+                    </div>
+                    
+                    <div class="date-info">
+                        <small>{{ letter.created_at }}</small>
+                    </div>
+                </div>
+
+                <div class="wax-seal">
+                    {% if letter.read %}
+                        <i class="ph ph-envelope-open" style="color: #5d4037;"></i> {% else %}
+                        <i class="ph ph-seal-check" style="color: #d32f2f;"></i> {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <i class="ph ph-mailbox" style="font-size: 4rem; color: #5d4037;"></i>
+            <p>Sua caixa de correio está vazia...<br>Que tal escrever a primeira carta?</p>
+            <a href="/app/write_letter" class="btn-write">Escrever Carta</a>
+        </div>
+    {% endif %}
+</div>
+
+<style>
+    /* Container Principal (A Mesa) */
+.inbox-container {
+    /* --- ADICIONE ISSO AQUI --- */
+    background: linear-gradient(rgba(235, 206, 190, 0.5), rgba(17, 0, 0, 0.719)), url("../static/images/bg.png");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* Importante: O fundo fica parado enquanto você rola as cartas */
+    /* -------------------------- */
+
+    max-width: 100%; /* Ocupa a tela toda */
+    min-height: 100vh; /* Garante que cubra a altura toda */
+    padding: 2rem;
+    margin: 0;
+}
+
+.page-title {
+    font-family: 'Dancing Script', cursive;
+    color: #3e2723;
+    font-size: 3rem;
+    text-align: center;
+    margin-bottom: 3rem;
+    text-shadow: 1px 1px 2px rgba(255,255,255,0.5);
+}
+
+/* O Grid (Organização dos envelopes) */
+.envelope-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+}
+
+/* O Cartão (Envelope) */
+.envelope-card {
+    background-color: #f4eace; /* Cor de papel envelhecido */
+    height: 180px;
+    border-radius: 5px;
+    position: relative;
+    padding: 1.5rem;
+    cursor: pointer;
+    box-shadow: 
+        0 4px 6px rgba(0,0,0,0.1), /* Sombra suave */
+        inset 0 0 20px rgba(161, 136, 127, 0.1); /* Textura interna */
+    transition: transform 0.3s, box-shadow 0.3s;
+    border: 1px solid rgba(62, 39, 35, 0.1);
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; /* Texto fica embaixo */
+}
+
+/* Efeito ao passar o mouse (Levantar o envelope) */
+.envelope-card:hover {
+    transform: translateY(-5px) rotate(1deg);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+/* Detalhe visual: Aba do envelope (Triângulo css) */
+.envelope-flap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 0;
+    border-left: 140px solid transparent;
+    border-right: 140px solid transparent;
+    border-top: 100px solid rgba(62, 39, 35, 0.05); /* Sombra da aba */
+    z-index: 0;
+}
+
+.envelope-info {
+    z-index: 1; /* Fica acima da aba */
+    font-family: 'Poppins', sans-serif;
+    color: #5d4037;
+}
+
+.sender-info {
+    font-weight: bold;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 5px;
+}
+
+.date-info small {
+    color: #8d6e63;
+    font-size: 0.8rem;
+}
+
+/* O Selo de Cera */
+.wax-seal {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 2rem;
+    filter: drop-shadow(0 2px 2px rgba(0,0,0,0.3));
+}
+
+/* Diferença visual se já foi lida */
+.envelope-card.read {
+    opacity: 0.8;
+    background-color: #eec; /* Um pouco mais escuro/usado */
+}
+
+/* Estado Vazio */
+.empty-state {
+    text-align: center;
+    margin-top: 5rem;
+    font-family: 'Dancing Script', cursive;
+    color: #5d4037;
+    font-size: 1.5rem;
+}
+
+.btn-write {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 10px 20px;
+    background: #8e0000;
+    color: white;
+    text-decoration: none;
+    border-radius: 20px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+}
+</style>
+{% endblock %}
+
