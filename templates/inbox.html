@@ -6,54 +6,31 @@
 <div class="inbox-container">
     <h2 class="page-title">Minha Caixa de Correspondência</h2>
 
-    {% if letters %}
-        <div class="envelope-grid">
-            {% for letter in letters %}
-            <div class="envelope-card {% if letter.read %}read{% else %}unread{% endif %}" 
-                 onclick="window.location.href='/app/read_letter/{{ letter.id }}'">
-                
-                <div class="envelope-flap"></div>
-                
-                <div class="envelope-info">
-                    <div class="sender-info">
-                        <i class="ph ph-user-circle"></i>
-                        <span>De: {{ letter.sender_nick }}</span> 
-                    </div>
-                    
-                    <div class="date-info">
-                        <small>{{ letter.created_at }}</small>
-                    </div>
-                </div>
+    <div class="inbox-wrapper">
+    <div id="inbox-grid" class="envelope-container"></div>
 
-                <div class="wax-seal">
-                    {% if letter.read %}
-                        <i class="ph ph-envelope-open" style="color: #5d4037;"></i> {% else %}
-                        <i class="ph ph-seal-check" style="color: #d32f2f;"></i> {% endif %}
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-    {% else %}
-        <div class="empty-state">
-            <i class="ph ph-mailbox" style="font-size: 4rem; color: #5d4037;"></i>
-            <p>Sua caixa de correio está vazia...<br>Que tal escrever a primeira carta?</p>
-            <a href="/app/write_letter" class="btn-write">Escrever Carta</a>
-        </div>
-    {% endif %}
+    <div id="empty-state" class="empty-state" style="display: none;">
+        <i class="ph ph-mailbox" style="font-size: 4rem; color: #5d4037;"></i>
+        <p>Sua caixa de correio está vazia...</p>
+        <a href="/app/write_letter" class="btn-write">Escrever Carta</a>
+    </div>
+    <div class="viewer">
+        <div class="paper"></div>
+    </div>
+    </div>
+
 </div>
 
 <style>
-    /* Container Principal (A Mesa) */
+
 .inbox-container {
-    /* --- ADICIONE ISSO AQUI --- */
+
     background: linear-gradient(rgba(235, 206, 190, 0.5), rgba(17, 0, 0, 0.719)), url("../static/images/bg.png");
     background-size: cover;
     background-position: center;
-    background-attachment: fixed; /* Importante: O fundo fica parado enquanto você rola as cartas */
-    /* -------------------------- */
-
-    max-width: 100%; /* Ocupa a tela toda */
-    min-height: 100vh; /* Garante que cubra a altura toda */
+    background-attachment: fixed; 
+    max-width: 100%; 
+    min-height: 100vh; 
     padding: 2rem;
     margin: 0;
 }
@@ -67,39 +44,45 @@
     text-shadow: 1px 1px 2px rgba(255,255,255,0.5);
 }
 
-/* O Grid (Organização dos envelopes) */
-.envelope-grid {
+.envelope-container {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    width: 100%;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
     gap: 2rem;
+    padding: 1rem;
+    transition: all 3s ease;
 }
 
-/* O Cartão (Envelope) */
+
 .envelope-card {
-    background-color: #f4eace; /* Cor de papel envelhecido */
-    height: 180px;
+    background-color: #f4eace;
+    height: 180px; 
     border-radius: 5px;
-    position: relative;
+    position: relative; 
     padding: 1.5rem;
     cursor: pointer;
-    box-shadow: 
-        0 4px 6px rgba(0,0,0,0.1), /* Sombra suave */
-        inset 0 0 20px rgba(161, 136, 127, 0.1); /* Textura interna */
-    transition: transform 0.3s, box-shadow 0.3s;
-    border: 1px solid rgba(62, 39, 35, 0.1);
-    
+    border: 1px solid rgba(62, 39, 35, 0.2);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
     display: flex;
     flex-direction: column;
-    justify-content: flex-end; /* Texto fica embaixo */
+    justify-content: flex-end;
 }
 
-/* Efeito ao passar o mouse (Levantar o envelope) */
+.letterBody{
+    display: none;
+}
+
+.selectedLetter{
+    border: 2px solid #8e0000;
+    box-shadow: 0 0 10px #8e0000;
+}
+
 .envelope-card:hover {
     transform: translateY(-5px) rotate(1deg);
     box-shadow: 0 10px 20px rgba(0,0,0,0.2);
 }
 
-/* Detalhe visual: Aba do envelope (Triângulo css) */
+
 .envelope-flap {
     position: absolute;
     top: 0;
@@ -113,7 +96,7 @@
 }
 
 .envelope-info {
-    z-index: 1; /* Fica acima da aba */
+    z-index: 1; 
     font-family: 'Poppins', sans-serif;
     color: #5d4037;
 }
@@ -167,6 +150,44 @@
     font-family: 'Poppins', sans-serif;
     font-size: 1rem;
 }
+
+.inbox-wrapper{
+    display: flex;
+    width: 100%;
+}
+
+.viewer{
+    
+    display: none;
+    width: 100%;
+    justify-content: center;
+    
+}
+
+.paper{
+    background-color: #f4eace;
+    background-image: linear-gradient(to bottom right, rgba(0,0,0,0.05), transparent 80%);
+    width: 700px;
+    max-width: 90%;
+    min-height: 80vh;
+    position: relative;
+    padding: 4rem 3rem;
+    border-radius: 2px 5px 2px 3px / 200px 5px 10px 200px;
+    box-shadow: 
+        /* Sombra de contato (bem perto) */
+        0 1px 4px rgba(0,0,0,0.4),
+        /* Sombra difusa (profundidade) */
+        0 15px 40px rgba(0,0,0,0.5),
+        /* Brilho interno (para dar textura) */
+        inset 0 0 40px rgba(161, 136, 127, 0.2);
+    
+    /* Rotação sutil para parecer que foi jogado na mesa */
+    transform: rotate(-0.25deg);
+    font-family: 'Courier New', Courier, monospace;
+
+}
 </style>
+
+<script src="{{ url_for('static', path='/js/inbox.js') }}"></script>
 {% endblock %}
 
