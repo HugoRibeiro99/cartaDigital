@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', async () =>{
             </div>
             <div class="envelope-flap"></div>
             <div class="wax-seal">
-                <i class="ph ph-envelope-open" style="color: #5d4037;"></i>
+                ${element.read ? '<i class="ph ph-envelope-open"></i>' : '<i class="ph ph-seal-check"></i>'}
             </div>
             <div class="letterBody" >${element.content}</div>
         </div>`
@@ -43,18 +43,25 @@ function readLetter(event){
     
     document.querySelector(".viewer").style.display = "flex";
     document.querySelector("#inbox-grid").style.gridTemplateColumns = "1fr 1fr";
-    const selectedLetter = document.querySelector(".selectedLetter");
+
+    const previousSelected = document.querySelector(".selectedLetter");
+    const clickedLetter = event.currentTarget;
     const paper = document.querySelector(".paper");
 
-    if(selectedLetter != null){
-        selectedLetter.classList.remove("selectedLetter");
+
+    if(previousSelected != null){
+        previousSelected.classList.remove("selectedLetter");
     }    
     event.currentTarget.classList.add("selectedLetter", "read");
 
-    paper.innerText = event.currentTarget.querySelector(".letterBody").innerText;
+    const maxSeal = clickedLetter.querySelector(".ph-seal-check");
+
+    if(maxSeal){
+        maxSeal.classList.replace("ph-seal-check", "ph-envelope-open");
+    }
+    
+    paper.innerHTML = clickedLetter.querySelector(".letterBody").innerHTML;
 
     const letterId = event.currentTarget.getAttribute("data-id");
-    alert("Carta lida com ID: " + letterId);
-
     
 }
