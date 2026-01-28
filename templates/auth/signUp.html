@@ -22,12 +22,12 @@
       required
     />
 
-    <label for="user_id"> Id :</label>
+    <label for="user_name"> User name :</label>
     <input
-      id="user_id"
-      name="user_id"
+      id="user_name"
+      name="user_name"
       type="text"
-      placeholder="User ID"
+      placeholder="User Name"
       required
     />
 
@@ -51,14 +51,14 @@
           const email = document.getElementById('email').value;
           const password = document.getElementById('password').value;
           const name = document.getElementById('name').value
-          const user_id = document.getElementById('user_id').value
+          const user_name = document.getElementById('user_name').value
   
           const response = await fetch('/auth/create_account', {
               method: 'POST',
               headers: {
                   'Content-Type': 'application/json'
               },
-              body: JSON.stringify({ email: email, password: password, name: name, user_id: user_id })
+              body: JSON.stringify({ email: email, password: password, name: name, user_name: user_name })
           });
   
           if (response.ok) {
@@ -66,10 +66,12 @@
               window.location.href =  data.redirect_url; 
           } else {
               const errorData = await response.json();
+              alert('Erro: ' + errorData.detail);
               const errorElement = document.getElementById('error-msg');
-              errorElement.innerText = errorData.detail;
-              errorElement.style.display = 'block';
-  
+              if(errorElement){
+                errorElement.innerText = errorData.detail;
+                errorElement.style.display = 'block';
+              }
           }
       });
   

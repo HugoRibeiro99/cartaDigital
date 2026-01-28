@@ -70,14 +70,14 @@ async def authenticate(request: Request):
 
 @auth_router.post("/create_account")
 async def create_account(user_schema : UserSchema, session = Depends(get_session)):
-
+    
     user = session.query(User).filter(User.email==user_schema.email).first()
     
     if user:
         raise HTTPException(status_code=400, detail="Email já cadastrado")
     else:
         c_pass = bcrypt_context.hash(user_schema.password)
-        new_user = User(user_schema.name, user_schema.email, c_pass, user_schema.user_id )
+        new_user = User(name=user_schema.name, email = user_schema.email, password = c_pass, user_name=user_schema.user_name )
         session.add(new_user)
         session.commit()
         access_token = create_token(new_user.id)

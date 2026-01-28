@@ -6,7 +6,7 @@ from typing import Optional
 class UserSchema(BaseModel):
     name: str
     email: str
-    user_id: str
+    user_name: str
     password: str
 
     class Config:
