@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Request, Depends, HTTPException
 from fastapi.templating import Jinja2Templates
-from schemas import LetterCreate
+from schemas import LetterCreate, MarkLetterAsRead
 from dependencies import get_session, token_verification, get_current_user
 from models import Letter
 from models import User
@@ -25,7 +25,7 @@ async def write_letter(request: Request, user = Depends(get_current_user)):
 @general_router.post("/write_letter")
 async def write_letter(letter_schema : LetterCreate, current_user = Depends(get_current_user), session = Depends(get_session)):
     'fazer logica getByID para verificar se o recipient existe'
-    nick_name = session.query(User).filter(User.user_id == letter_schema.recipient_user_id).first()
+    nick_name = session.query(User).filter(User.user_name == letter_schema.user_name).first()
 
     if not nick_name:
         raise HTTPException(status_code=404, detail="Destinatário não encontrado. Verifique o apelido.")
@@ -47,18 +47,35 @@ async def getLetters(current_user = Depends(get_current_user), session = Depends
     my_letters = []
 
     for letter, sender in letters:
-        # Formata a data aqui para facilitar no JS
+    
         data_fmt = letter.created_at.strftime("%d/%m/%Y") if letter.created_at else "Data desc."
         
         my_letters.append({
-            "id": letter.id,
-            "sender_nick": sender.user_id,
+            "uuid": letter.uuid,
+            "sender_nick": sender.user_name,
             "created_at": data_fmt,
-            "read": letter.status == "READ",
-            "content": letter.content # Opcional, se quiser mostrar preview
+            "read": letter.is_read,
+            "content": letter.content 
         })
 
     return my_letters
+
+
+@general_router.patch("/mark_as_read")
+async def mark_as_read(mark_schema : MarkLetterAsRead, session = Depends(get_session), current_user = Depends(get_current_user)):
+
+    letter = session.query(Letter).filter(Letter.uuid == mark_schema.uuid, Letter.recipient_id == current_user.id).first()
+    
+    if not letter:
+        raise HTTPException(status_code=404, detail="Carta não encontrada ou você não tem permissão para alterá-la")
+    if letter.is_read == False and mark_schema.is_read == True:
+        letter.is_read = True
+    
+    session.add(letter)
+    session.commit()
+
+    raise  HTTPException(status_code=201, detail="Status atualizado com sucesso")
+
 
 @general_router.get("/inbox")
 async def inbox(request: Request):

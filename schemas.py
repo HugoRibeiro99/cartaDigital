@@ -20,7 +20,7 @@ class LoginSchema(BaseModel):
         from_attributes = True
 
 class LetterCreate(BaseModel):
-    recipient_user_id: str
+    user_name: str
     content: str
 
 class LetterResponse(BaseModel):
@@ -35,3 +35,7 @@ class LetterResponse(BaseModel):
 
     class Config:
         from_attributes = True
+
+class MarkLetterAsRead(BaseModel):
+    uuid: str
+    is_read: bool

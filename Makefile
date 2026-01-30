@@ -1,4 +1,4 @@
-virtualenv:
+venv:
 	source .venv/bin/activate 
 
 run: 
