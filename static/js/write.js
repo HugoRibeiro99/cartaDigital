@@ -17,7 +17,6 @@ document.getElementById('paper').addEventListener('submit', async (e) => {
 
     if (response.ok) {
         const data = await response.json();
-        alert(data.message);
     } else {
         const errorData = await response.json();
         const errorElement = document.getElementById("error-msg");

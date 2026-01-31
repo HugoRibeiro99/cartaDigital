@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', async () =>{
 
 
         letters.forEach(element => {
-            htmlContent += `<div class="envelope-card ${!element.is_read ? "read": null}" onclick=readLetter(event) data-id="${element.uuid}">
+            htmlContent += `<div class="envelope-card ${element.read ? "read": null}" onclick=readLetter(event) data-id="${element.uuid}" data-read="${element.read}">
         
             <div class="envelope-flap"></div>
             
@@ -58,23 +58,27 @@ async function readLetter(event){
     
     paper.innerHTML = clickedLetter.querySelector(".letterBody").innerHTML;
 
-    const letterId = event.currentTarget.getAttribute("data-id");
-    
-    //VERIFICAR SE A CARTA JA ESTA COMO LIDA 
-    alert(letterId);
-    const response = await fetch('/app/mark_as_read', {
-        method: 'PATCH',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({uuid: letterId, is_read: true})
-    });
+    alert(clickedLetter.getAttribute("data-read"))
 
-    if(response.ok){
-        if(maxSeal){
-            maxSeal.classList.replace("ph-seal-check", "ph-envelope-open");
+    if(clickedLetter.getAttribute("data-read") == "false"){
+
+        const letterId = event.currentTarget.getAttribute("data-id");
+        alert('chamou')
+
+        const response = await fetch('/app/mark_as_read', {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({uuid: letterId, is_read: true})
+        });
+
+        if(response.ok){
+            if(maxSeal){
+                maxSeal.classList.replace("ph-seal-check", "ph-envelope-open");
+            }
+        }else{
+            console.error("Erro ao marcar como lida");
         }
-    }else{
-        console.error("Erro ao marcar como lida");
     }
 }
