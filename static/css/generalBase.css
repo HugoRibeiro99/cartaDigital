@@ -1,0 +1,180 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: linear-gradient(rgba(235, 206, 190, 0.5), rgba(17, 0, 0, 0.719)), url("../images/bg.png");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; 
+    max-width: 100%; 
+    min-height: 100vh; 
+    padding: 0rem;
+    margin: 0;
+}
+
+
+
+.page-title {
+    font-family: 'Dancing Script', cursive;
+    color: #3e2723;
+    font-size: 3rem;
+    text-align: center;
+    margin-bottom: 3rem;
+    text-shadow: 1px 1px 2px rgba(255,255,255,0.5);
+}
+
+.envelope-container {
+    display: grid;
+    width: 100%;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 2rem;
+    padding: 1rem;
+    transition: all 3s ease;
+}
+
+
+.envelope-card {
+    background-color: #f4eace;
+    height: 180px; 
+    border-radius: 5px;
+    position: relative; 
+    padding: 1.5rem;
+    cursor: pointer;
+    border: 1px solid rgba(62, 39, 35, 0.2);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.letterBody{
+    display: none;
+}
+
+.selectedLetter{
+    border: 2px solid #8e0000;
+    box-shadow: 0 0 10px #8e0000;
+}
+
+.envelope-card:hover {
+    transform: translateY(-5px) rotate(1deg);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+
+.envelope-flap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 0;
+    border-left: 140px solid transparent;
+    border-right: 140px solid transparent;
+    border-top: 100px solid rgba(62, 39, 35, 0.05); /* Sombra da aba */
+    z-index: 0;
+}
+
+.envelope-info {
+    z-index: 1; 
+    font-family: 'Poppins', sans-serif;
+    color: #5d4037;
+}
+
+.sender-info {
+    font-weight: bold;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 5px;
+}
+
+.date-info small {
+    color: #8d6e63;
+    font-size: 0.8rem;
+}
+
+/* O Selo de Cera */
+.wax-seal {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 2rem;
+    filter: drop-shadow(0 2px 2px rgba(0,0,0,0.3));
+}
+
+/* Diferença visual se já foi lida */
+.envelope-card.read {
+    opacity: 0.8;
+    background-color: #eec; /* Um pouco mais escuro/usado */
+}
+
+/* Estado Vazio */
+.empty-state {
+    text-align: center;
+    margin-top: 5rem;
+    font-family: 'Dancing Script', cursive;
+    color: #5d4037;
+    font-size: 1.5rem;
+}
+
+.btn-write {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 10px 20px;
+    background: #8e0000;
+    color: white;
+    text-decoration: none;
+    border-radius: 20px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+}
+
+.inbox-wrapper{
+    display: flex;
+    width: 100%;
+}
+
+.viewer{
+    
+    display: none;
+    width: 100%;
+    justify-content: center;
+    
+}
+
+.paper{
+    background-color: #f4eace;
+    background-image: linear-gradient(to bottom right, rgba(0,0,0,0.05), transparent 80%);
+    width: 700px;
+    max-width: 90%;
+    min-height: 80vh;
+    position: relative;
+    padding: 4rem 3rem;
+    border-radius: 2px 5px 2px 3px / 200px 5px 10px 200px;
+    box-shadow: 
+        /* Sombra de contato (bem perto) */
+        0 1px 4px rgba(0,0,0,0.4),
+        /* Sombra difusa (profundidade) */
+        0 15px 40px rgba(0,0,0,0.5),
+        /* Brilho interno (para dar textura) */
+        inset 0 0 40px rgba(161, 136, 127, 0.2);
+    
+    /* Rotação sutil para parecer que foi jogado na mesa */
+    transform: rotate(-0.25deg);
+    font-family: 'Courier New', Courier, monospace;
+
+}
+
+.ph-envelope-open{
+    color: #3e2723;
+}
+
+.ph-seal-check{
+    color: #8e0000;
+}
+

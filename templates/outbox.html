@@ -1,17 +1,17 @@
-
-
 {% extends "base.html" %}
 
 {% block conteudo %}
+
+
 <div class="inbox-container">
-    <h2 class="page-title">Minha Caixa de Correspondência</h2>
+    <h2 class="page-title">Minha Caixa de Saída</h2>
 
     <div class="inbox-wrapper">
     <div id="inbox-grid" class="envelope-container"></div>
 
     <div id="empty-state" class="empty-state" style="display: none;">
         <i class="ph ph-mailbox" style="font-size: 4rem; color: #5d4037;"></i>
-        <p>Sua caixa de correio está vazia...</p>
+        <p>Sua caixa de saída está vazia...</p>
         <a href="/app/write_letter" class="btn-write">Escrever Carta</a>
     </div>
     <div class="viewer">
@@ -22,6 +22,4 @@
 </div>
 
 
-<script src="{{ url_for('static', path='/js/inbox.js') }}"></script>
-{% endblock %}
-
+{% endblock  %}

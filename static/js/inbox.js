@@ -58,12 +58,9 @@ async function readLetter(event){
     
     paper.innerHTML = clickedLetter.querySelector(".letterBody").innerHTML;
 
-    alert(clickedLetter.getAttribute("data-read"))
-
     if(clickedLetter.getAttribute("data-read") == "false"){
 
         const letterId = event.currentTarget.getAttribute("data-id");
-        alert('chamou')
 
         const response = await fetch('/app/mark_as_read', {
             method: 'PATCH',
