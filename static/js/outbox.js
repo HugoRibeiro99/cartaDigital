@@ -1,21 +1,22 @@
 document.addEventListener('DOMContentLoaded', async () =>{
 
     try{
-        const response = await fetch('/app/letters/inbox')
+        const response = await fetch('/app/letters/outbox')
         const letters = await response.json();
+        console.log(letters)
         const lettersContainer = document.querySelector('#inbox-grid')
         let htmlContent = '';
 
 
         letters.forEach(element => {
-            htmlContent += `<div class="envelope-card ${element.read ? "read": null}" onclick=readLetter(event) data-id="${element.uuid}" data-read="${element.read}">
+            htmlContent += `<div class="envelope-card" onclick=readLetter(event) data-id="${element.uuid}">
         
             <div class="envelope-flap"></div>
             
             <div class="envelope-info">
                 <div class="sender-info">
                     <i class="ph ph-user-circle"></i>
-                    <span>De: ${element.sender_nick}</span>
+                    <span>Para: ${element.recipient_nick}</span>
                 </div>
                 <div class="date-info">
                     <small>${element.created_at || ''}</small>
@@ -23,7 +24,7 @@ document.addEventListener('DOMContentLoaded', async () =>{
             </div>
             <div class="envelope-flap"></div>
             <div class="wax-seal">
-                ${element.read ? '<i class="ph ph-envelope-open"></i>' : '<i class="ph ph-seal-check"></i>'}
+               
             </div>
             <div class="letterBody" >${element.content}</div>
         </div>`
@@ -39,8 +40,7 @@ document.addEventListener('DOMContentLoaded', async () =>{
 
 })
 
-async function readLetter(event){
-    
+function readLetter(event){
     document.querySelector(".viewer").style.display = "flex";
     document.querySelector("#inbox-grid").style.gridTemplateColumns = "1fr 1fr";
 
@@ -48,34 +48,11 @@ async function readLetter(event){
     const clickedLetter = event.currentTarget;
     const paper = document.querySelector(".paper");
 
-
     if(previousSelected != null){
         previousSelected.classList.remove("selectedLetter");
-    }    
-    event.currentTarget.classList.add("selectedLetter", "read");
+    } 
+    event.currentTarget.classList.add("selectedLetter");
 
-    const maxSeal = clickedLetter.querySelector(".ph-seal-check");
-    
     paper.innerHTML = clickedLetter.querySelector(".letterBody").innerHTML;
 
-    if(clickedLetter.getAttribute("data-read") == "false"){
-
-        const letterId = event.currentTarget.getAttribute("data-id");
-
-        const response = await fetch('/app/mark_as_read', {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({uuid: letterId, is_read: true})
-        });
-
-        if(response.ok){
-            if(maxSeal){
-                maxSeal.classList.replace("ph-seal-check", "ph-envelope-open");
-            }
-        }else{
-            console.error("Erro ao marcar como lida");
-        }
-    }
 }

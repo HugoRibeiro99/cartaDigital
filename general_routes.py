@@ -36,13 +36,11 @@ async def write_letter(letter_schema : LetterCreate, current_user = Depends(get_
     raise  HTTPException(status_code=201, detail="Carta criada com sucesso")
 
 
-@general_router.get("/get_letters")
-async def getLetters(current_user = Depends(get_current_user), session = Depends(get_session)):
+@general_router.get("/letters/inbox")
+async def get_inbox_letters(current_user = Depends(get_current_user), session = Depends(get_session)):
 
     letters = session.query(Letter, User).join(User, Letter.sender_id == User.id).filter(Letter.recipient_id == current_user.id).filter(Letter.status != "DRAFT")\
     .order_by(desc(Letter.id)).all()
-
-    print(letters)
     
     my_letters = []
 
@@ -93,3 +91,25 @@ async def outbox(request: Request):
         name="outbox.html",
         context={"request": request}
     )
+
+@general_router.get("/letters/outbox")
+async def get_outbox_letters(current_user = Depends(get_current_user), session = Depends(get_session)):
+    letters = session.query(Letter, User).join(User, Letter.recipient_id == User.id).filter(Letter.sender_id == current_user.id).order_by(desc(Letter.id)).all()
+
+    my_letters = []
+
+    for letter, recipient in letters:
+    
+        created_fmt = letter.created_at.strftime("%d/%m/%Y") if letter.created_at else "Data desc."
+        sent_fmt = letter.sent_at.strftime("%d/%m/%Y") if letter.sent_at else "Data desc."
+        
+        my_letters.append({
+            "uuid": letter.uuid,
+            "recipient_nick": recipient.user_name,
+            "created_at": created_fmt,
+            "status": letter.status,
+            "sent_at": sent_fmt,
+            "content": letter.content 
+        })
+
+    return my_letters
