@@ -11,7 +11,9 @@ nav{
 }
 
 .menu li{
-    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-color: #f4eace;
     border-radius: 50%;
     width: 4rem;
@@ -81,7 +83,9 @@ nav{
 .menu li a {
     text-decoration: none;
     font-weight: bold;
-    font-size: 1.2rem;
+    font-size: 3rem;
+    padding: .2rem .6rem;
+    border-radius: 2rem;
 }
 
 .menu li a i {
