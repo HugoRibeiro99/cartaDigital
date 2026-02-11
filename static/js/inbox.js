@@ -79,3 +79,17 @@ async function readLetter(event){
         }
     }
 }
+
+function addFilter(event){
+
+    
+    checked = document.querySelector(".checked")
+
+    checked.classList.remove("checked")
+
+    console.log(event.currentTarget)
+
+    event.currentTarget.classList.add("checked")
+
+
+}

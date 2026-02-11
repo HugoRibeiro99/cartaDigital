@@ -23,8 +23,47 @@ body {
     color: #3e2723;
     font-size: 3rem;
     text-align: center;
-    margin-bottom: 3rem;
+    margin-bottom: 1.5rem;
     text-shadow: 1px 1px 2px rgba(255,255,255,0.5);
+    padding: 2rem;
+}
+
+.filterOptions{
+
+    padding: .1rem;
+    width: 18rem;
+    display: flex;
+    justify-content: center;
+    gap: .5rem;
+    margin-left: 1rem;
+    margin-bottom: .5rem;
+    
+}
+
+.filterOptions span{
+    border: 1px solid darkred;
+    border-radius: .5rem;
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.2rem;
+    color: #3e2723;
+    padding: 0.5rem;
+    cursor: pointer;
+    background-color: #eec;
+
+}
+
+.filterOptions span:hover{
+    background-color: #8d6e634b;
+    color: white;
+    transition: ease-in-out .5s;
+    border: 1px double white;
+    
+}
+
+.checked{
+    background-color: darkred !important;
+    color: white !important;
+    border: 1px solid white;
 }
 
 .envelope-container {
@@ -115,10 +154,11 @@ body {
 
 /* Estado Vazio */
 .empty-state {
+    width: 100%;
     text-align: center;
     margin-top: 5rem;
-    font-family: 'Dancing Script', cursive;
-    color: #5d4037;
+    color: white;
+    font-weight: bolder;
     font-size: 1.5rem;
 }
 
@@ -137,6 +177,7 @@ body {
 .inbox-wrapper{
     display: flex;
     width: 100%;
+
 }
 
 .viewer{

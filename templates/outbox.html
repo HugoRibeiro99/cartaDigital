@@ -5,12 +5,16 @@
 
 <div class="inbox-container">
     <h2 class="page-title">Minha Caixa de Saída</h2>
-
+    <div class="filterOptions">
+        <span onclick="addFilter(event)" data-index="0" class="checked">Entregues</span>
+        <span onclick="addFilter(event)" data-index="1">Á caminho</span>
+        <span onclick="addFilter(event)" data-index="2">Rascunho</span>
+    </div>
     <div class="inbox-wrapper">
     <div id="inbox-grid" class="envelope-container"></div>
 
     <div id="empty-state" class="empty-state" style="display: none;">
-        <i class="ph ph-mailbox" style="font-size: 4rem; color: #5d4037;"></i>
+        <i class="ph ph-mailbox" style="font-size: 4rem; color: rgb(146, 4, 4);"></i>
         <p>Sua caixa de saída está vazia...</p>
         <a href="/app/write_letter" class="btn-write">Escrever Carta</a>
     </div>

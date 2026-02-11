@@ -1,12 +1,30 @@
+const FILTER_URLS = {
+    0: '/letters/inbox',              // Botão "Entregues"
+    1: '/letters/outbox?status=SENT', // Botão "A caminho"
+    2: '/letters/outbox?status=DRAFT' // Botão "Rascunho"
+};
+
+//     alert(checked.getAttribute("data-index"))
+
 document.addEventListener('DOMContentLoaded', async () =>{
 
+    checked = document.querySelector(".checked")
+
     try{
-        const response = await fetch('/app/letters/outbox')
+        const response = await fetch('/app/letters/outbox', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        } )
         const letters = await response.json();
-        console.log(letters)
         const lettersContainer = document.querySelector('#inbox-grid')
         let htmlContent = '';
 
+        if(letters.length === 0 || letters.length === undefined){
+            document.getElementById("empty-state").style.display = "block";
+            lettersContainer.style.display = "none";
+        }
 
         letters.forEach(element => {
             htmlContent += `<div class="envelope-card" onclick=readLetter(event) data-id="${element.uuid}">
@@ -54,5 +72,19 @@ function readLetter(event){
     event.currentTarget.classList.add("selectedLetter");
 
     paper.innerHTML = clickedLetter.querySelector(".letterBody").innerHTML;
+
+}
+
+function addFilter(event){
+
+    
+    checked = document.querySelector(".checked")
+
+    checked.classList.remove("checked")
+
+    console.log(event.currentTarget)
+
+    event.currentTarget.classList.add("checked")
+
 
 }

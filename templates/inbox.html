@@ -6,6 +6,11 @@
 <div class="inbox-container">
     <h2 class="page-title">Minha Caixa de Correspondência</h2>
 
+    <div class="filterOptions">
+        <span onclick="addFilter(event)" data-index="0" class="checked">Entregues</span>
+        <span onclick="addFilter(event)" data-index="1">Á caminho</span>
+        <span onclick="addFilter(event)" data-index="2">Rascunho</span>
+    </div>
     <div class="inbox-wrapper">
     <div id="inbox-grid" class="envelope-container"></div>
 
