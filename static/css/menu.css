@@ -24,6 +24,23 @@ nav{
     cursor: pointer;
 }
 
+.menu li a {
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 3rem;
+    padding: .8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 2rem;
+    border: 1px solid #3e2723;
+}
+
+.menu li a i {
+    font-size: 2rem;
+    color: darkred;
+}
+
 .closed{
     opacity: 0;
     transform: translateY(20px);
@@ -80,15 +97,3 @@ nav{
     transform: translateY(-50%) scale(1); /* Efeito de "pop" crescendo */
 }
 
-.menu li a {
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 3rem;
-    padding: .2rem .6rem;
-    border-radius: 2rem;
-}
-
-.menu li a i {
-    font-size: 2rem;
-    color: darkred;
-}
