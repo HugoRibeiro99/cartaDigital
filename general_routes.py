@@ -76,7 +76,7 @@ async def mark_as_read(mark_schema : MarkLetterAsRead, session = Depends(get_ses
 
 
 @general_router.get("/inbox")
-async def inbox(request: Request):
+async def inbox(request: Request, user = Depends(get_current_user)):
     return templates.TemplateResponse(
         request = request,
         name="inbox.html",
@@ -85,7 +85,7 @@ async def inbox(request: Request):
 
 
 @general_router.get("/outbox")
-async def outbox(request: Request):
+async def outbox(request: Request, user = Depends(get_current_user)):
     return templates.TemplateResponse(
         request = request,
         name="outbox.html",
