@@ -1,6 +1,12 @@
 # ✉️ Slow Tech - Carta Digital
 
+> 🚀 **Acesse o projeto online:** [carta-digital-teal.vercel.app](https://carta-digital-teal.vercel.app)
+
+<br>
+
 O projeto **Carta Digital** faz parte da iniciativa "Slow Tech", focada em resgatar a intenção e a paciência na comunicação digital. Diferente das mensagens instantâneas, esta plataforma permite o envio de cartas digitais com um tempo de entrega programado, promovendo uma experiência de troca mais significativa.
+
+
 
 ---
 
@@ -10,6 +16,8 @@ O projeto **Carta Digital** faz parte da iniciativa "Slow Tech", focada em resga
 * **Migrações:** **Alembic** (para versionamento do banco de dados).
 * **Autenticação:** JWT (JSON Web Tokens) e rotas protegidas.
 * **Frontend:** Jinja2 Templates / Static files (CSS/JS).
+
+
   
 
 ## 🚀 Funcionalidades
