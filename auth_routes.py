@@ -4,7 +4,7 @@ from models import User
 from dependencies import get_session, token_verification
 from fastapi.templating import Jinja2Templates
 from main import bcrypt_context, ALGORITHM, ACESS_TOKEN_EXPIRE_MINUTES, SECRET_KEY
-from schemas import UserSchema, LoginSchema
+from schemas import UserSchema, LoginSchema, ProfileEditSchema
 from jose import jwt, JWTError
 from datetime import datetime, timedelta, timezone
 from fastapi.security import OAuth2PasswordRequestForm
@@ -31,7 +31,7 @@ def create_token(user_id, duration_token = timedelta(minutes=ACESS_TOKEN_EXPIRE_
     return encoded_jwt
 
 
-def response_return(access_token, refresh_token, message,redirect_url):
+def response_return(access_token, refresh_token, message, redirect_url):
 
     content = {
         "access_token": access_token,
@@ -148,3 +148,20 @@ async def logout():
     )
 
     return response
+
+
+# @auth_router.patch("/profile_edit")
+# async def profile_edit( profile_edit_schema : ProfileEditSchema, user: User = Depends(token_verification)):
+    
+#     if(profile_edit_schema.name != "" or profile_edit_schema.user_name != ""):
+        
+#         if(profile_edit_schema.name != user.name and profile_edit_schema.name):
+#             user.name = profile_edit_schema.name
+
+#         if(profile_edit_schema.user_name != user.user_name and profile_edit_schema.user_name):
+#             user.user_name = profile_edit_schema.user_name
+
+    
+    
+
+    

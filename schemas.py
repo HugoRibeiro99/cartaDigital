@@ -2,7 +2,7 @@ from pydantic import BaseModel
 from datetime import datetime
 from typing import Optional
 
-
+# USER SCHEMAS -----------------------------
 class UserSchema(BaseModel):
     name: str
     email: str
@@ -18,6 +18,15 @@ class LoginSchema(BaseModel):
 
     class Config:
         from_attributes = True
+
+class ProfileEditSchema(BaseModel):
+    name: str
+    user_name: str
+
+# END -----------------------------------------
+        
+
+#LETTERS SCHEMAS --------------------------------
 
 class LetterCreate(BaseModel):
     user_name: str

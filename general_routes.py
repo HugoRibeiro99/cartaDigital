@@ -113,3 +113,13 @@ async def get_outbox_letters(current_user = Depends(get_current_user), session =
         })
 
     return my_letters
+
+
+
+@general_router.get("/profile")
+async def outbox(request: Request, user = Depends(get_current_user)):
+    return templates.TemplateResponse(
+        request = request,
+        name="profile.html",
+        context={"request": request}
+    )

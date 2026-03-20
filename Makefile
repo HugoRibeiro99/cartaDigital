@@ -2,7 +2,7 @@ venv:
 	source .venv/bin/activate 
 
 run: 
-	uvicorn main:app --reload
+	python -m uvicorn main:app --reload
 
 # 1. Aplicar migrações (Atualizar o banco de dados para a versão mais recente)
 migrate:
