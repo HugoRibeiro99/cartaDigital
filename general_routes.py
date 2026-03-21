@@ -30,7 +30,7 @@ async def write_letter(letter_schema : LetterCreate, current_user = Depends(get_
     if not nick_name:
         raise HTTPException(status_code=404, detail="Destinatário não encontrado. Verifique o apelido.")
     
-    new_letter = Letter(recipient_id = nick_name.id, content = letter_schema.content, sender_id = current_user.id)
+    new_letter = Letter(recipient_id = nick_name.id, content = letter_schema.content, sender_id = current_user.id, status = letter_schema.status if letter_schema.status else "draft")
     session.add(new_letter)
     session.commit()
     raise  HTTPException(status_code=201, detail="Carta criada com sucesso")

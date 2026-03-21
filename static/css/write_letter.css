@@ -125,7 +125,7 @@
     display: flex;
     justify-content: start;
     align-items: center;
-    gap: 2rem;
+    gap: 1rem;
     margin-top: 1rem;
 }
 
@@ -136,6 +136,13 @@
     font-size: 1.5rem;
     background-color: #f4eace;
     border-radius: .5rem;
+}
+
+.LetterOptions i:hover{
+    transition: 1s ease-in-out;
+    color: white;
+    border: 1px solid white;
+    background-color: darkred;
 }
 
 /* Container para alinhar o Label e o Input */
@@ -197,3 +204,4 @@
     padding: 1rem;
     
 }
+

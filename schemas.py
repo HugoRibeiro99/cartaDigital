@@ -31,6 +31,7 @@ class ProfileEditSchema(BaseModel):
 class LetterCreate(BaseModel):
     user_name: str
     content: str
+    status: Optional[str] = None
 
 class LetterResponse(BaseModel):
     id: int          
