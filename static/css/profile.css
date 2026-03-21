@@ -31,7 +31,7 @@ body {
     gap: 3rem;
 }
 
-.avatar{
+.profile-container .avatar{
     width: 8rem;
     height: 8rem;
     background-color: #fff;
@@ -46,12 +46,12 @@ body {
     border: 1px solid darkred;
 }
 
-.avatar > i {
+.profile-container .avatar > i {
     font-size: 5rem;
     color: darkred;
 }
 
-.avatar span{
+.profile-container .avatar span{
     width: 1rem;
     height: 1rem;
     background-color: darkred;

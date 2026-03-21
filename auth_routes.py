@@ -31,14 +31,15 @@ def create_token(user_id, duration_token = timedelta(minutes=ACESS_TOKEN_EXPIRE_
     return encoded_jwt
 
 
-def response_return(access_token, refresh_token, message, redirect_url):
+def response_return(access_token, refresh_token, message, redirect_url, user_name=None):
 
     content = {
         "access_token": access_token,
         "refresh_token": refresh_token,
         "token_type": "Bearer",
-        "message": "Login realizado",
-        "redirect_url": "/app/write_letter" 
+        "message": message,
+        "redirect_url": redirect_url,
+        "user_name": user_name
     }
 
     response = JSONResponse(content = content)
@@ -105,7 +106,8 @@ async def login(login_schema : LoginSchema, session = Depends(get_session)):
         access_token = create_token(user.id)
         refresh_token = create_token(user.id, duration_token=timedelta(days=7))
 
-        response = response_return(access_token=access_token, refresh_token=refresh_token, message="Login realizado", redirect_url="/app/write_letter")
+        user_name = user.user_name
+        response = response_return(access_token=access_token, refresh_token=refresh_token, message="Login realizado", redirect_url="/app/write_letter", user_name=user_name)
         return response
 
     

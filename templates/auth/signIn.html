@@ -48,6 +48,7 @@
 
     if (response.ok) {
       const data = await response.json();
+      localStorage.setItem("userName", data.user_name);
       window.location.href = data.redirect_url;
     } else {
       const errorData = await response.json();

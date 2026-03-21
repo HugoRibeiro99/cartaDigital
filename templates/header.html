@@ -1,0 +1,26 @@
+<head>
+    <link
+      href="{{ url_for('static', path='/css/header.css') }}"
+      rel="stylesheet"
+    />
+  </head>
+
+<div class="header-container">
+
+    <div class="user-name">
+        
+    </div>
+
+    <div class="avatar-container" onclick="dropDown()">   
+        <div class="avatar">
+            <i class="ph ph-user"></i>
+        </div>
+        <i class="ph ph-caret-down"></i>
+        <div class="dropdown-content">
+            <a href="/app/profile">Perfil</a>
+            <a id="btn-logout" onclick="logout()">Sair</a>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', path='/js/header.js') }}"></script>
+</div>
