@@ -5,6 +5,7 @@ from dependencies import get_session, token_verification, get_current_user
 from models import Letter
 from models import User
 from sqlalchemy import desc
+from datetime import datetime, timezone, timedelta
 
 
 templates = Jinja2Templates(directory="templates")
@@ -26,11 +27,23 @@ async def write_letter(request: Request, user = Depends(get_current_user)):
 async def write_letter(letter_schema : LetterCreate, current_user = Depends(get_current_user), session = Depends(get_session)):
     'fazer logica getByID para verificar se o recipient existe'
     nick_name = session.query(User).filter(User.user_name == letter_schema.user_name).first()
-
+    
     if not nick_name:
         raise HTTPException(status_code=404, detail="Destinatário não encontrado. Verifique o apelido.")
     
-    new_letter = Letter(recipient_id = nick_name.id, content = letter_schema.content, sender_id = current_user.id, status = letter_schema.status if letter_schema.status else "draft")
+    if nick_name.id == current_user.id:
+        raise HTTPException(status_code=400, detail="Você não pode enviar uma carta para si mesmo.")
+    
+    if not letter_schema.content.strip():
+        raise HTTPException(status_code=400, detail="O conteúdo da carta não pode ser vazio.")
+    
+    if letter_schema.status == "sent":
+        delivery_time = 24 # 24 hours
+        delivery_at = datetime.now(timezone.utc) + timedelta(hours=delivery_time)
+        new_letter = Letter(recipient_id = nick_name.id, content = letter_schema.content, sender_id = current_user.id, status = letter_schema.status, delivery_at = delivery_at, sent_at = datetime.now(timezone.utc))
+    else:
+        new_letter = Letter(recipient_id = nick_name.id, content = letter_schema.content, sender_id = current_user.id, status = letter_schema.status if letter_schema.status else "draft")
+    
     session.add(new_letter)
     session.commit()
     raise  HTTPException(status_code=201, detail="Carta criada com sucesso")

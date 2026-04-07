@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine, Column, String, Integer, Boolean, DateTime, ForeignKey, Text
 from sqlalchemy.orm import declarative_base
 from enum import Enum
-from datetime import datetime
+from datetime import datetime, timezone
 import uuid
 
 db = create_engine("sqlite:///database.db")
@@ -40,9 +40,9 @@ class Letter(base):
     recipient_id = Column("recipient_id", ForeignKey("users.id"), nullable = False)
     content = Column("content", Text, nullable=False)
     status = Column("status", String, default=LetterStatus.DRAFT.value, nullable=False)
-    created_at = Column("created_at", DateTime,default=datetime.now, nullable=False)
+    created_at = Column("created_at", DateTime, default=lambda: datetime.now(timezone.utc), nullable=False)
     sent_at = Column("sent_at", DateTime,default=None, nullable=True)
-    delivery_at = Column("delivery_at", DateTime ,default=None, nullable=True)
+    delivery_at = Column("delivery_at", DateTime, nullable=True)
     is_read = Column(Boolean, default=False)
 
 
