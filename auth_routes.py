@@ -3,7 +3,7 @@ from fastapi.responses import JSONResponse
 from models import User
 from dependencies import get_session, token_verification
 from fastapi.templating import Jinja2Templates
-from main import bcrypt_context, ALGORITHM, ACESS_TOKEN_EXPIRE_MINUTES, SECRET_KEY
+from main import bcrypt_context, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES, SECRET_KEY
 from schemas import UserSchema, LoginSchema, ProfileEditSchema
 from jose import jwt, JWTError
 from datetime import datetime, timedelta, timezone
@@ -24,7 +24,7 @@ def user_auth(email, password, session):
     return user
 
 
-def create_token(user_id, duration_token = timedelta(minutes=ACESS_TOKEN_EXPIRE_MINUTES)):
+def create_token(user_id, duration_token = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)):
     expiration_date = datetime.now(timezone.utc) + duration_token
     dict_info = {"sub" : str(user_id), "exp": expiration_date}
     encoded_jwt = jwt.encode(dict_info, SECRET_KEY, ALGORITHM)
