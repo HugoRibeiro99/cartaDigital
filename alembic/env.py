@@ -4,9 +4,27 @@ from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
 from alembic import context
+from dotenv import load_dotenv
 
 import sys
 import os
+
+
+# --- INÍCIO DO JEITO CERTO ---
+# Carrega as senhas do arquivo .env
+load_dotenv() 
+
+config = context.config
+
+# Pega a URL do .env. Se existir, substitui a que está no alembic.ini
+db_url = os.getenv("DATABASE_URL")
+if db_url:
+    # Garante o 'postgresql://' caso a Vercel mande 'postgres://'
+    if db_url.startswith("postgres://"):
+        db_url = db_url.replace("postgres://", "postgresql://", 1)
+    
+    config.set_main_option("sqlalchemy.url", db_url)
+# --- FIM DO JEITO CERTO ---
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 

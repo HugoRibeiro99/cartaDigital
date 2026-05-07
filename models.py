@@ -1,12 +1,25 @@
+import os
 from sqlalchemy import create_engine, Column, String, Integer, Boolean, DateTime, ForeignKey, Text
 from sqlalchemy.orm import declarative_base
 from enum import Enum
 from datetime import datetime, timezone
 import uuid
 
-db = create_engine("sqlite:///database.db")
+
+
+DB_URL = os.getenv("POSTGRES_URL", os.getenv("DATABASE_URL=postgresql://neondb_owner:npg_LGp63Rnwtmuc@ep-sweet-queen-ac1zpzm2-pooler.sa-east-1.aws.neon.tech/neondb?channel_binding=require&sslmode=require"))
+
+
+if DB_URL and DB_URL.startswith("postgres://"):
+    DB_URL = DB_URL.replace("postgres://", "postgresql://", 1)
+
+if not DB_URL:
+    DB_URL = "sqlite:///database.db"
+
+db = create_engine(DB_URL)
 
 base = declarative_base()
+
 
 class User(base):
     __tablename__ = "users"
